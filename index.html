@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChatRoom</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="screen-login" class="screen active">
+  <div class="center-box">
+    <div class="logo-mark">⬡</div>
+    <h1 class="app-title">ChatRoom</h1>
+    <p class="app-sub">End-to-end encrypted messaging</p>
+    <div class="tab-row">
+      <button class="tab-btn active" id="tab-login">Login</button>
+      <button class="tab-btn" id="tab-register">Register</button>
+    </div>
+    <div id="login-form">
+      <input class="field" id="login-username" placeholder="username" autocomplete="username" />
+      <input class="field" id="login-password" type="password" placeholder="password" autocomplete="current-password" />
+      <button class="primary-btn full" id="login-btn">Login</button>
+      <p id="login-error" class="error-msg"></p>
+    </div>
+    <div id="register-form" style="display:none">
+      <input class="field" id="reg-username" placeholder="choose a username" autocomplete="off" />
+      <input class="field" id="reg-password" type="password" placeholder="password (min 8 chars)" autocomplete="new-password" />
+      <input class="field" id="reg-password2" type="password" placeholder="confirm password" autocomplete="new-password" />
+      <button class="primary-btn full" id="register-btn">Create Account</button>
+      <p id="reg-error" class="error-msg"></p>
+    </div>
+    <p class="privacy-note">🔒 No IP · no location · no tracking. Ever.</p>
+  </div>
+</div>
+
+<!-- HOME -->
+<div id="screen-home" class="screen">
+  <div class="top-bar">
+    <span class="bar-title">⬡ ChatRoom</span>
+    <div class="top-actions">
+      <button id="btn-search" class="icon-btn" title="Search">🔍</button>
+      <button id="btn-requests" class="icon-btn" title="Requests">📬 <span id="req-badge" class="req-badge hidden">0</span></button>
+      <button id="btn-logout" class="icon-btn danger" title="Logout">⏻</button>
+    </div>
+  </div>
+  <div class="section-label">Friends</div>
+  <div id="friends-list"></div>
+</div>
+
+<!-- SEARCH -->
+<div id="screen-search" class="screen">
+  <div class="top-bar">
+    <button id="btn-back-search" class="back-btn">←</button>
+    <span class="bar-title">Search Users</span>
+  </div>
+  <div class="search-wrap">
+    <input id="search-input" class="field" placeholder="Type a username…" autocomplete="off" />
+  </div>
+  <div id="search-results"></div>
+</div>
+
+<!-- REQUESTS -->
+<div id="screen-requests" class="screen">
+  <div class="top-bar">
+    <button id="btn-back-requests" class="back-btn">←</button>
+    <span class="bar-title">Friend Requests</span>
+  </div>
+  <div id="request-list"></div>
+</div>
+
+<!-- CHAT -->
+<div id="screen-chat" class="screen">
+  <div class="top-bar">
+    <button id="btn-back-chat" class="back-btn">←</button>
+    <div id="chat-username" class="bar-title chat-peer"></div>
+    <div class="top-actions" id="chat-normal-actions">
+      <button id="btn-start-call" class="icon-btn" title="Video Call">📞</button>
+    </div>
+    <div class="top-actions hidden" id="chat-select-actions">
+      <span id="select-count" class="select-count-label">0 selected</span>
+      <button id="btn-copy-selected" class="icon-btn" title="Copy">📋</button>
+      <button id="btn-delete-me" class="icon-btn" title="Delete for me">🗑️</button>
+      <button id="btn-delete-all" class="icon-btn danger" title="Delete for all">💥</button>
+      <button id="btn-cancel-select" class="icon-btn" title="Cancel">✕</button>
+    </div>
+  </div>
+  <div id="incoming-banner" class="incoming-banner hidden">
+    <span id="incoming-banner-label">📞 Incoming call…</span>
+    <button id="btn-banner-answer" class="primary-btn">Answer</button>
+    <button id="btn-banner-decline" class="danger-btn">Decline</button>
+  </div>
+  <div id="chat-messages" class="chat-list"></div>
+  <form id="chat-form" class="chat-form">
+    <input id="chat-input" class="field chat-input" placeholder="Message…" autocomplete="off" />
+    <button class="primary-btn send-btn">↑</button>
+  </form>
+</div>
+
+<!-- CALL SCREEN -->
+<div id="screen-call" class="screen">
+  <div class="call-screen-inner">
+    <video id="remoteVideo" class="remote-video" autoplay playsinline></video>
+    <div class="call-overlay-top">
+      <button id="btn-call-chat" class="call-back-btn" title="Back to chat">💬 Chat</button>
+      <div class="call-info">
+        <div id="call-peer-name" class="call-peer-name">…</div>
+        <div class="call-status-row">
+          <span id="call-status-dot" class="call-status-dot"></span>
+          <span id="call-timer" class="call-timer">00:00</span>
+        </div>
+      </div>
+    </div>
+    <div id="local-pip" class="local-pip-wrap">
+      <video id="localVideo" class="local-pip-video" autoplay playsinline muted></video>
+      <button id="btn-flip-cam" class="pip-flip-btn" title="Flip camera">🔄</button>
+    </div>
+    <div id="call-incoming-overlay" class="call-incoming-overlay hidden">
+      <p id="incoming-ring-name" class="incoming-ring-text">📞 Incoming call</p>
+      <div class="call-answer-btns">
+        <button id="btn-answer" class="answer-btn">📞 Answer</button>
+        <button id="btn-decline" class="reject-btn">📵 Decline</button>
+      </div>
+    </div>
+    <div class="call-controls-bar">
+      <button id="btn-toggle-mic" class="call-ctrl-btn active">
+        <span class="ctrl-icon">🎤</span><span class="ctrl-label">Mute</span>
+      </button>
+      <button id="btn-toggle-cam" class="call-ctrl-btn active">
+        <span class="ctrl-icon">📷</span><span class="ctrl-label">Camera</span>
+      </button>
+      <button id="btn-toggle-speaker" class="call-ctrl-btn active">
+        <span class="ctrl-icon">🔊</span><span class="ctrl-label">Speaker</span>
+      </button>
+      <button id="btn-hangup" class="call-ctrl-btn hangup-btn">
+        <span class="ctrl-icon">📵</span><span class="ctrl-label">End</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXT MENU -->
+<div id="msg-context-menu" class="ctx-menu hidden">
+  <button id="ctx-copy"       class="ctx-item">📋 Copy</button>
+  <button id="ctx-select"     class="ctx-item">☑️ Select</button>
+  <button id="ctx-delete-me"  class="ctx-item">🗑️ Delete for Me</button>
+  <button id="ctx-delete-all" class="ctx-item ctx-danger hidden">💥 Delete for All</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+<script type="module" src="script.js"></script>
+</body>
+</html>
