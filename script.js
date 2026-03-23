@@ -5,13 +5,14 @@ import {
 
 /* ── FIREBASE ── */
 const firebaseConfig = {
-  apiKey: "AIzaSyB1jn36w9rpzskOHZujUIWdFyHAJdNYBMQ",
-  authDomain: "chatroom-37278.firebaseapp.com",
-  databaseURL: "https://chatroom-37278-default-rtdb.firebaseio.com",
-  projectId: "chatroom-37278",
-  storageBucket: "chatroom-37278.firebasestorage.app",
-  messagingSenderId: "738726516362",
-  appId: "1:738726516362:web:0dc5ea006158c1d3c9bf73"
+  apiKey: "AIzaSyCE7RsYIyLZB_JDkzZapB-XgYzixfFFh9E",
+  authDomain: "instagram-viewer-d1b90.firebaseapp.com",
+  databaseURL: "https://instagram-viewer-d1b90-default-rtdb.firebaseio.com",
+  projectId: "instagram-viewer-d1b90",
+  storageBucket: "instagram-viewer-d1b90.firebasestorage.app",
+  messagingSenderId: "558751573053",
+  appId: "1:558751573053:web:03ecc66967414f2a0db654",
+  measurementId: "G-F75CHB90YR"
 };
 const app = initializeApp(firebaseConfig);
 const db  = getDatabase(app);
